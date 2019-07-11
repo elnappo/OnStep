@@ -9,7 +9,7 @@
  *
 */
 
-#define MaxESP3_OFF  //  <- Turn _ON to use this configuration *** NOT for the MaxESP version 1.x (see "~\OnStep\other-configurations") ***
+#define MaxESP2_ON  //  <- Turn _ON to use this configuration *** NOT for other MaxESP versions *** (see "~\OnStep\other-configurations")
 
 // ESP32 Release 1.0.0 Notes:
 // The stock BluetoothSerial.h library doesn't work:
@@ -30,7 +30,7 @@
 // Default speed for Serial2 com port, Default=9600
 #define SERIAL_B_BAUD_DEFAULT 9600
 // For an ESP32 SerialC is the Bluetooth port so use a name instead of a baud "ONSTEP", etc.
-#define SERIAL_C_BAUD_DEFAULT_OFF
+#define SERIAL_C_BAUD_DEFAULT "ONSTEP"
 
 // Mount type, default is _GEM (German Equatorial.) This allows Meridian flips and can be used for other mount types if that behaviour is desired.  _FORK switches off Meridian Flips 
 // but allows travel across the Meridian. _ALTAZM is for Alt/Azm mounted 'scopes.
@@ -49,7 +49,7 @@
 // Press and hold [N]+[S] buttons for > 2 seconds for mode B: [E] Selects prior and [W] next user catalog item. [N] Do a Goto to the catalog item. [S] Sound on/off.  
 // The keypad returns to normal operation after 4 seconds of inactivity.  ST4_HAND_CONTROL_ON also adds a 100ms de-bounce to all button presses.
 // Finally, during a goto pressing any button aborts the slew.  If meridian flip paused at home, pressing any button continues.  default=_ON
-#define ST4_HAND_CONTROL_ON
+#define ST4_HAND_CONTROL_OFF
 // Press and hold [N]+[S] buttons for > 2 seconds for mode B: [E] Selects focuser 1 [W] selects focuser 2. [N] Moves focuser in and [S] moves focuser out. 
 #define ST4_HAND_CONTROL_FOCUSER_OFF
 
@@ -65,7 +65,7 @@
 
 // RTC (Real Time Clock) support, default=_OFF. 
 // Other options: RTC_DS3231 for a DS3231 on the I2C port Aux3/4 (SCL,SDA.)  Choose either I2C OR Home Sense support on Aux3/4.
-#define RTC_OFF
+#define RTC_DS3231
 
 // PEC sense on Pin 36 (A0) use _ON to enable the input.  Built-in pullup resistors are not available.  Provide a comparison value (see below) for analog operation, default=_OFF
 // Analog values range from 0 to 4095? which indicate voltages from 0-3.3VDC? on the analog pin (voltage range not confirmed, be careful!)
@@ -101,7 +101,7 @@
 
 // Optionally adjust tracking rate to compensate for atmospheric refraction, default=_OFF
 // can be turned on/off with the :Tr# and :Tn# commands regardless of this setting
-#define TRACK_REFRACTION_RATE_DEFAULT_OFF
+#define TRACK_REFRACTION_RATE_DEFAULT_ON
 
 // Set to _OFF and OnStep will allow Syncs to change pier side for GEM mounts (on/off), default=_ON
 #define SYNC_CURRENT_PIER_SIDE_ONLY_ON
@@ -122,7 +122,7 @@
 
 // ADJUST THE FOLLOWING TO MATCH YOUR MOUNT --------------------------------------------------------------------------------
 #define REMEMBER_SLEW_RATE_OFF       // Set to _ON and OnStep will remember rates set in the ASCOM driver, Android App, etc. default=_OFF.
-#define DesiredBaseSlewRate      1.0 // Desired slew (goto) rate in degrees/second; also adjustable at run-time from 1/2 to 2x this rate.
+#define DesiredBaseSlewRate      1.5 // Desired slew (goto) rate in degrees/second; also adjustable at run-time from 1/2 to 2x this rate.
                                      // The resulting step rate is automatically reduced if too high for the current hardware/settings.
 
 #define DegreesForAcceleration   5.0 // approximate number of degrees for full acceleration or deceleration: higher values=longer acceleration/deceleration
@@ -135,14 +135,14 @@
                                      // for the most part this doesn't need to be changed, but adjust when needed.  Default=25
 
                                      // Axis1 is for RA/Az
-#define StepsPerDegreeAxis1  12800.0 // calculated as    :  stepper_steps * micro_steps * gear_reduction1 * (gear_reduction2/360)
+#define StepsPerDegreeAxis1  6400.0 // calculated as    :  stepper_steps * micro_steps * gear_reduction1 * (gear_reduction2/360)
                                      // G11              :  400           * 32          * 1               *  360/360              = 12800
                                      // Axis2 is for Dec/Alt
-#define StepsPerDegreeAxis2  12800.0 // calculated as    :  stepper_steps * micro_steps * gear_reduction1 * (gear_reduction2/360)
+#define StepsPerDegreeAxis2  6400.0 // calculated as    :  stepper_steps * micro_steps * gear_reduction1 * (gear_reduction2/360)
                                      // G11              :  400           * 32          * 1               *  360/360              = 12800
                                      
                                      // PEC, number of steps for a complete worm rotation (in RA), (StepsPerDegreeAxis1*360)/gear_reduction2.  Ignored on Alt/Azm mounts.
-#define StepsPerWormRotationAxis1 12800L
+#define StepsPerWormRotationAxis1 16000L
                                      // G11              : (12800*360)/360 = 12800
 
 #define PECBufferSize           824  // PEC, buffer size, max should be no more than 3384, your required buffer size >= StepsPerAxis1WormRotation/(StepsPerDegeeAxis1/240)
@@ -183,18 +183,19 @@
 // Stepper driver models are as follows: (for example AXIS1_DRIVER_MODEL DRV8825,) A4988, LV8729, RAPS128, S109, ST820, TMC2100, TMC2208, TMC2209*, TMC2130* **, TMC5160* **
 // * = add _QUIET (stealthChop tracking,) _VQUIET (stealthChop tracking & slew,) _LOWPWR for reduced power during tracking (for example: TMC2130_QUIET_LOWPWR)
 // ** = for TMC5160 (and optionally TMC2130) program the stepper driver current with #define AXISn_TMC_IRUN current_in_milli-amps (for additional settings see AdvancedDriverSetup.txt)
-#define AXIS1_DRIVER_MODEL_OFF      // Axis1 (RA/Azm):  Default _OFF, Stepper driver model (see above)
-#define AXIS1_MICROSTEPS_OFF        // Axis1 (RA/Azm):  Default _OFF, Microstep mode when the scope is doing sidereal tracking (for example: AXIS1_MICROSTEPS 32)
-#define AXIS1_MICROSTEPS_GOTO_OFF   // Axis1 (RA/Azm):  Default _OFF, Optional microstep mode used during gotos (for example: AXIS1_MICROSTEPS_GOTO 2)
-#define AXIS2_DRIVER_MODEL_OFF      // Axis2 (Dec/Alt): Default _OFF, Stepper driver model (see above)
-#define AXIS2_MICROSTEPS_OFF        // Axis2 (Dec/Alt): Default _OFF, Microstep mode when the scope is doing sidereal tracking
-#define AXIS2_MICROSTEPS_GOTO_OFF   // Axis2 (Dec/Alt): Default _OFF, Optional microstep mode used during gotos
-// Note: you can replace this section with the contents of "AdvancedStepperSetup.txt" . . . . . . . . . . . . . . . . . . . 
+#define MODE_SWITCH_BEFORE_SLEW_SPI
+#define AXIS1_MODE (4|TMC_STEALTHCHOP)
+#define AXIS1_MODE_GOTO (4|TMC_STEALTHCHOP)
+#define AXIS1_STEP_GOTO 1
+#define AXIS2_MODE (4|TMC_STEALTHCHOP)
+#define AXIS2_MODE_GOTO (4|TMC_STEALTHCHOP)
+#define AXIS2_STEP_GOTO 1
+// Note: you can replace this section with the contents of "AdvancedStepperSetup.txt" . . . . . . . . . . . . . . . . . . .
 
 // Stepper driver Fault detection on Pin 12 (Aux1 and Aux2,) choose only one feature to use on Aux1/2.  The SPI interface (on M0/M1/M2/Aux) returns status/error info. from TMC2130, TMC5160, etc.
 // settings are TMC_SPI or Default=_OFF.
-#define AXIS1_FAULT_OFF
-#define AXIS2_FAULT_OFF
+#define AXIS1_FAULT TMC2130
+#define AXIS2_FAULT TMC2130
 
 // ------------------------------------------------------------------------------------------------------------------------
 // CAMERA ROTATOR OR ALT/AZ DE-ROTATION -----------------------------------------------------------------------------------
