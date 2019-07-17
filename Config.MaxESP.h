@@ -71,9 +71,9 @@
 // Analog values range from 0 to 4095? which indicate voltages from 0-3.3VDC? on the analog pin (voltage range not confirmed, be careful!)
 // With either index detection method, once triggered 60s must expire before another detection can happen.  This gives time for the index magnet to pass by the detector before another cycle begins.
 // Ignored on Alt/Azm mounts.
-#define PEC_SENSE_OFF
+#define PEC_SENSE_ON
 // PEC sense, rising edge (default with PEC_SENSE_STATE HIGH, use LOW for falling edge, ex. PEC_SENSE_ON) ; for optional PEC index
-#define PEC_SENSE_STATE HIGH
+#define PEC_SENSE_STATE LOW
 
 // Switch close (to ground) on Aux7 (Pin 39) for optional limit sense (stops gotos and/or tracking), Built-in pullup resistors are not available. Default=_OFF.  Choose only one feature on Aux7.
 #define LIMIT_SENSE_OFF
