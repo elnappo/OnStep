@@ -85,7 +85,7 @@
 #define STATUS_LED_PINS_OFF
 // Light 2nd status LED by sink to ground Aux8 (Pin 25), default=_OFF.  Choose only one feature on Aux8.
 // _ON sets this to blink at 1 sec intervals when PPS is synced.  Turns off if tracking is stopped.  Turns on during gotos.
-#define STATUS_LED2_PINS_OFF
+#define STATUS_LED2_PINS_ON
 // Light reticule LED by sink to ground Aux8 (Pin 25), default=_OFF.  Choose only one feature on Aux8.
 // RETICULE_LED_PINS n, where n=0 to 255 activates this feature and sets default brightness
 #define RETICULE_LED_PINS_OFF
@@ -97,7 +97,7 @@
 #define DEFAULT_SOUND_OFF
 
 // Set to _ON (or the I2C device address if other than 0x77) and wire in BME280 on the I2C port Aux3/4 (SCL,SDA) for temperature, pressure, humidity.  Default=_OFF.  Choose either I2C OR Home Sense support on Aux3/4.
-#define WEATHER_BME280_OFF
+#define WEATHER_BME280_ON
 
 // Optionally adjust tracking rate to compensate for atmospheric refraction, default=_OFF
 // can be turned on/off with the :Tr# and :Tn# commands regardless of this setting
