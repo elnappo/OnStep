@@ -17,9 +17,9 @@
 #define SPECIAL_CHARS_ON          // Default=_ON, _OFF for standard ASCII special symbols (compatibility)
 #define ADVANCED_CHARS_ON         // Default=_ON, _OFF for standard "RA/Dec" instead of symbols
 
-#define AMBIENT_CONDITIONS_OFF    // Default=_OFF, _ON for ambient conditions on status page
-#define INTERNAL_TEMPERATURE_OFF  // Default=_OFF, _ON for internal MCU temperature display
-#define WIFI_SIGNAL_STRENGTH_OFF   // Default=_OFF, _ON if wireless signal strength is to be reported via web interface
+#define AMBIENT_CONDITIONS_ON    // Default=_OFF, _ON for ambient conditions on status page
+#define INTERNAL_TEMPERATURE_ON  // Default=_OFF, _ON for internal MCU temperature display
+#define WIFI_SIGNAL_STRENGTH_ON   // Default=_OFF, _ON if wireless signal strength is to be reported via web interface
 
 // --------------------------------------------------------------------------------------
 // Encoder support (either _AB for Quadrature A/B OR _CWCCW for CW/CCW)
@@ -83,4 +83,3 @@
 // upload OnStep again if necessary and then restart both devices to resume operation.
 
 // -------------------------------------------------------------------------------
-
