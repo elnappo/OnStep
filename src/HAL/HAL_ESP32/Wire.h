@@ -69,7 +69,7 @@ protected:
 public:
     TwoWire(uint8_t bus_num);
     ~TwoWire();
-    void begin(int sda=-1, int scl=-1, uint32_t frequency=0);
+    bool begin(int sda=-1, int scl=-1, uint32_t frequency=0);
     inline void end() { i2cRelease(i2c); i2c=NULL; };
 
     void setClock(uint32_t frequency); // change bus clock without initing hardware
@@ -131,6 +131,9 @@ public:
 
     void onReceive( void (*)(int) );
     void onRequest( void (*)(void) );
+
+    uint32_t setDebugFlags( uint32_t setBits, uint32_t resetBits);
+    bool busy();
 
     void dumpInts();
     void dumpI2C();

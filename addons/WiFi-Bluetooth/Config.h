@@ -9,9 +9,9 @@
 
 #define SERIAL_BAUD 57600         // Default=57600, use 19200 for talking to OnStep on a Mega2560
 
-#define LED_PIN_OFF               // Default=_OFF, Flashes LED when trying to connect to OnStep, use LED_PIN D4 for WeMos D1 Mini
+#define LED_PIN D4            // Default=_OFF, Flashes LED when trying to connect to OnStep, use LED_PIN D4 for WeMos D1 Mini
 
-#define SERIAL_SWAP_OFF            // Default=_OFF, _ON to swap ESP8266 Serial default location GPIO 1(TX)/3(RX) to 15(TX)/13(RX) 
+#define SERIAL_SWAP_ON            // Default=_OFF, _ON to swap ESP8266 Serial default location GPIO 1(TX)/3(RX) to 15(TX)/13(RX) 
                                    // useful for WeMos D1 Mini where these are labeled D8(TXD2) and D7(RXD2), for example
 
 #define SPECIAL_CHARS_ON          // Default=_ON, _OFF for standard ASCII special symbols (compatibility)

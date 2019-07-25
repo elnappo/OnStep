@@ -27,7 +27,7 @@ void pec() {
   #ifdef PEC_SENSE
     // for analog sense, with 60 second delay before redetect
     long dist; if (wormSensePos>pecPos) dist=wormSensePos-pecPos; else dist=pecPos-wormSensePos;
-    if ((dist>StepsPerSecondAxis1*60.0) && (pecAnalogValue>PEC_SENSE)) {
+    if ((dist>StepsPerSecondAxis1*120.0) && (pecAnalogValue>PEC_SENSE)) {
       wormSensePos=pecPos;
       wormSensedAgain=true;
       wormSensedFirst=true;
@@ -37,7 +37,7 @@ void pec() {
   #if defined(PEC_SENSE_ON) || defined(PEC_SENSE_PULLUP)
     // for digital sense, with 60 second delay before redetect
     long dist; if (wormSensePos>pecPos) dist=wormSensePos-pecPos; else dist=pecPos-wormSensePos;
-    if ((dist>StepsPerSecondAxis1*60.0) && (digitalRead(PecPin)==PEC_SENSE_STATE)) {
+    if ((dist>StepsPerSecondAxis1*120.0) && (digitalRead(PecPin)==PEC_SENSE_STATE)) {
       wormSensePos=pecPos;
       wormSensedAgain=true;
       wormSensedFirst=true;
@@ -189,4 +189,3 @@ void cleanupPec() {
   // a reality check, make sure the buffer data looks good, if not forget it
   if ((sum_pec>2) || (sum_pec<-2)) { pecRecorded=false; pecStatus=IgnorePEC; }
 }
-
