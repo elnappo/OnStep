@@ -122,7 +122,7 @@
 
 // ADJUST THE FOLLOWING TO MATCH YOUR MOUNT --------------------------------------------------------------------------------
 #define REMEMBER_SLEW_RATE_OFF       // Set to _ON and OnStep will remember rates set in the ASCOM driver, Android App, etc. default=_OFF.
-#define DesiredBaseSlewRate      1.5 // Desired slew (goto) rate in degrees/second; also adjustable at run-time from 1/2 to 2x this rate.
+#define DesiredBaseSlewRate      1.5   // Desired slew (goto) rate in degrees/second; also adjustable at run-time from 1/2 to 2x this rate.
                                      // The resulting step rate is automatically reduced if too high for the current hardware/settings.
 
 #define DegreesForAcceleration   5.0 // approximate number of degrees for full acceleration or deceleration: higher values=longer acceleration/deceleration
@@ -135,10 +135,10 @@
                                      // for the most part this doesn't need to be changed, but adjust when needed.  Default=25
 
                                      // Axis1 is for RA/Az
-#define StepsPerDegreeAxis1  6400.0 // calculated as    :  stepper_steps * micro_steps * gear_reduction1 * (gear_reduction2/360)
+#define StepsPerDegreeAxis1  6400.0  // calculated as    :  stepper_steps * micro_steps * gear_reduction1 * (gear_reduction2/360)
                                      // G11              :  400           * 32          * 1               *  360/360              = 12800
                                      // Axis2 is for Dec/Alt
-#define StepsPerDegreeAxis2  6400.0 // calculated as    :  stepper_steps * micro_steps * gear_reduction1 * (gear_reduction2/360)
+#define StepsPerDegreeAxis2  6400.0  // calculated as    :  stepper_steps * micro_steps * gear_reduction1 * (gear_reduction2/360)
                                      // G11              :  400           * 32          * 1               *  360/360              = 12800
                                      
                                      // PEC, number of steps for a complete worm rotation (in RA), (StepsPerDegreeAxis1*360)/gear_reduction2.  Ignored on Alt/Azm mounts.
@@ -184,10 +184,10 @@
 // * = add _QUIET (stealthChop tracking,) _VQUIET (stealthChop tracking & slew,) _LOWPWR for reduced power during tracking (for example: TMC2130_QUIET_LOWPWR)
 // ** = for TMC5160 (and optionally TMC2130) program the stepper driver current with #define AXISn_TMC_IRUN current_in_milli-amps (for additional settings see AdvancedDriverSetup.txt)
 #define MODE_SWITCH_BEFORE_SLEW_SPI
-#define AXIS1_MODE (4|TMC_STEALTHCHOP)
+#define AXIS1_MODE (4|TMC_STEALTHCHOP|TMC_LOWPWR)
 #define AXIS1_MODE_GOTO (4|TMC_STEALTHCHOP)
 #define AXIS1_STEP_GOTO 1
-#define AXIS2_MODE (4|TMC_STEALTHCHOP)
+#define AXIS2_MODE (4|TMC_STEALTHCHOP|TMC_LOWPWR)
 #define AXIS2_MODE_GOTO (4|TMC_STEALTHCHOP)
 #define AXIS2_STEP_GOTO 1
 // Note: you can replace this section with the contents of "AdvancedStepperSetup.txt" . . . . . . . . . . . . . . . . . . .
