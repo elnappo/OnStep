@@ -23,7 +23,7 @@
 // The stock BluetoothSerial.h library doesn't, I know of no solution for this
 // The stock Wire.h library appears to work properly
 
-#ifdef MaxESP2_OFF
+#ifdef MaxESP2_ON
 // -------------------------------------------------------------------------------------------------------------------------
 // ADJUST THE FOLLOWING TO CONFIGURE YOUR CONTROLLER FEATURES --------------------------------------------------------------
 
@@ -178,24 +178,65 @@
 #define AXIS1_DISABLE HIGH
 #define AXIS2_DISABLE HIGH
 
-// Basic stepper driver mode setup . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-// If used, this requires connections M0, M1, and M2 on Pins 15,16,17 for Axis1 (RA/Azm) and Pins 8,7,6 for Axis2 (Dec/Alt.)
-// Stepper driver models are as follows: (for example AXIS1_DRIVER_MODEL DRV8825,) A4988, LV8729, RAPS128, S109, ST820, TMC2100, TMC2208, TMC2209*, TMC2130* **, TMC5160* **
-// * = add _QUIET (stealthChop tracking,) _VQUIET (stealthChop tracking & slew,) _LOWPWR for reduced power during tracking (for example: TMC2130_QUIET_LOWPWR)
-// ** = for TMC5160 (and optionally TMC2130) program the stepper driver current with #define AXISn_TMC_IRUN current_in_milli-amps (for additional settings see AdvancedDriverSetup.txt)
-#define MODE_SWITCH_BEFORE_SLEW_SPI
-#define AXIS1_MODE (4|TMC_STEALTHCHOP|TMC_LOWPWR)
-#define AXIS1_MODE_GOTO (4|TMC_STEALTHCHOP)
-#define AXIS1_STEP_GOTO 1
-#define AXIS2_MODE (4|TMC_STEALTHCHOP|TMC_LOWPWR)
-#define AXIS2_MODE_GOTO (4|TMC_STEALTHCHOP)
-#define AXIS2_STEP_GOTO 1
-// Note: you can replace this section with the contents of "AdvancedStepperSetup.txt" . . . . . . . . . . . . . . . . . . .
+// Advanced stepper driver mode setup  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+// Use this in your config.xxx.h file in place of the "Basic stepper driver mode setup" section
+//
+// M0, M1, and M2 for Axis1/2 (RA/Azm) and are listed in Config.xxx.h's matching Pins.xxx.h file.
+// values (0b000 to 111): for example "#define AXIS1_MODE  4" is the same as "#define AXIS1_MODE 0b100" which sets M2 to HIGH, M1 to LOW, and M0 to LOW
+//                                                                                                / | \                  (1)         (0)            (0)
+//                                                                                              M2  M1 M0
+//
+
+#define AXIS1_MODE_OFF                    // programs the RA/Az uStep mode M0/M1/M2, optional and default _OFF.
+#define AXIS1_MODE_GOTO_OFF               // programs the RA/Az uStep mode M0/M1/M2, used during gotos, optional and default _OFF.
+#define AXIS1_STEP_GOTO 1                 // 1=goto mode is same as normal mode: for example if normal tracking mode is 32x and goto is 8x this would be 4
+
+#define AXIS2_MOD_OFF                     // programs the Dec/Alt uStep mode M0/M1/M2, optional and default _OFF.
+#define AXIS2_MODE_GOTO_OFF               // programs the Dec/Alt uStep mode M0/M1/M2, used during gotos, optional and default _OFF.
+#define AXIS2_STEP_GOTO 1                 // 1=goto mode is same as normal mode: for example if normal tracking mode is 32x and goto is 8x this would be 4
+
+#define MODE_SWITCH_BEFORE_SLEW_SPI       // _ON (or _SPI) for _MODE and _MODE_GOTO settings to start/stop just before/after the slew, otherwise goto mode becomes active
+                                          // during the slew at >128uS/step speeds. _SPI as above but uses SPI (on M0/M1/M2/(and optionally Aux)) to do the switching (TMC2130.)
+                                          // SilentStepStick TMC2130/5160 SPI configurations: use MODE_SWITCH_BEFORE_SLEW_SPI.  Defaults to spreadCycle w/256x interpolation.
+
+// Settings for TMC2130, TMC5160, etc? stepper drivers when in SPI mode.  In this mode AXISn_MODE (and AXISn_MODE_GOTO) is the micro-step setting code as given in the TMC2130, etc. datasheet.
+#define AXIS1_DRIVER_MODEL TMC5160      // Axis1 (RA/Azm):  Default _OFF, Stepper driver model (see above)
+#define AXIS1_MICROSTEPS 16             // Axis1 (RA/Azm):  Default _OFF, Microstep mode when the scope is doing sidereal tracking (for example: AXIS1_MICROSTEPS 32)
+#define AXIS1_MICROSTEPS_GOTO_OFF       // Axis1 (RA/Azm):  Default _OFF, Optional microstep mode used during gotos (for example: AXIS1_MICROSTEPS_GOTO 2)
+#define AXIS1_TMC_MODE STEALTHCHOP      // use SPREADCYCLE or STEALTHCHOP mode when tracking
+#define AXIS1_TMC_MODE_GOTO SPREADCYCLE // use SPREADCYCLE or STEALTHCHOP mode during slews
+#define AXIS1_TMC_INTPOL true           // true to use 256x interpolation
+#define AXIS1_TMC_IHOLD 1000            // current during standstill;  in milli-amps, use these values for current limiting Vref setting via the trim-pot on driver
+#define AXIS1_TMC_IRUN 1500             // current during tracking;    alternatively set Vref = 2.5V (TMC2130) and enter the currents you would like in mA here
+#define AXIS1_TMC_IGOTO 2000            // current during slews
+#define AXIS1_TMC_RSENSE 0.075          // standard Rsense for TMC2130, for the TMC5160 use 0.075, other devices may be different
+
+#define AXIS2_DRIVER_MODEL TMC5160      // Axis2 (Dec/Alt): Default _OFF, Stepper driver model (see above)
+#define AXIS2_MICROSTEPS 16             // Axis2 (Dec/Alt): Default _OFF, Microstep mode when the scope is doing sidereal tracking
+#define AXIS2_MICROSTEPS_GOTO_OFF       // Axis2 (Dec/Alt): Default _OFF, Optional microstep mode used during gotos
+#define AXIS2_DRIVER_MODEL TMC5160
+#define AXIS2_TMC_MODE STEALTHCHOP      // use SPREADCYCLE or STEALTHCHOP mode when tracking
+#define AXIS2_TMC_MODE_GOTO SPREADCYCLE // use SPREADCYCLE or STEALTHCHOP mode during slews
+#define AXIS2_TMC_INTPOL true           // true to use 256x interpolation
+#define AXIS2_TMC_IHOLD 1000            // current during standstill;  in milli-amps, use these values for current limiting Vref setting via the trim-pot on driver
+#define AXIS2_TMC_IRUN 1500             // current during tracking;    alternatively set Vref = 2.5V (TMC2130) and enter the currents you would like in mA here
+#define AXIS2_TMC_IGOTO 2000            // current during slews
+#define AXIS2_TMC_RSENSE 0.075          // standard Rsense for TMC2130, for the TMC5160 use 0.075, other devices may be different
+
+// Secondary stepper driver decay control (for both Axes, the _DECAY_MODE and _DECAY_MODE_GOTO settings always start/stop just before/after the slew)
+// typically used for the DRV8825, A9488, or TMC2209 where decay control is separate from the micro-step mode control.  DRV8825 and A4988 modules usually need to be modified to accomplish this.
+// Axis1/2 decay mode pin locations, if available, are in Pins.xxx.h  Options are HIGH, LOW, OPEN, default is _OFF.) MODE_SWITCH_BEFORE_SLEW must be _OFF if using this.
+#define DECAY_MODE_OFF
+#define DECAY_MODE_GOTO_OFF
+
+// If the decay/micro-step mode switch happens before/after a slew, inserts a 3ms delay before the motors take a step.
+#define MODE_SWITCH_SLEEP_OFF
+// . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 
 // Stepper driver Fault detection on Pin 12 (Aux1 and Aux2,) choose only one feature to use on Aux1/2.  The SPI interface (on M0/M1/M2/Aux) returns status/error info. from TMC2130, TMC5160, etc.
 // settings are TMC_SPI or Default=_OFF.
-#define AXIS1_FAULT TMC2130
-#define AXIS2_FAULT TMC2130
+#define AXIS1_FAULT TMC_SPI
+#define AXIS2_FAULT TMC_SPI
 
 // ------------------------------------------------------------------------------------------------------------------------
 // CAMERA ROTATOR OR ALT/AZ DE-ROTATION -----------------------------------------------------------------------------------
