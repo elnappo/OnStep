@@ -122,7 +122,7 @@
 
 // ADJUST THE FOLLOWING TO MATCH YOUR MOUNT --------------------------------------------------------------------------------
 #define REMEMBER_SLEW_RATE_OFF       // Set to _ON and OnStep will remember rates set in the ASCOM driver, Android App, etc. default=_OFF.
-#define DesiredBaseSlewRate      1.5   // Desired slew (goto) rate in degrees/second; also adjustable at run-time from 1/2 to 2x this rate.
+#define DesiredBaseSlewRate      2   // Desired slew (goto) rate in degrees/second; also adjustable at run-time from 1/2 to 2x this rate.
                                      // The resulting step rate is automatically reduced if too high for the current hardware/settings.
 
 #define DegreesForAcceleration   5.0 // approximate number of degrees for full acceleration or deceleration: higher values=longer acceleration/deceleration
