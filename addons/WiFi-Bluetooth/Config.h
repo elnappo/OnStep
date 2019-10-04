@@ -2,9 +2,9 @@
 // Configuration for OnStep WiFi Add-on
 
 /*
- *          For more information on setting OnStep up see http://www.stellarjourney.com/index.php?r=site/equipment_onstep 
+ *          For more information on setting OnStep up see http://www.stellarjourney.com/index.php?r=site/equipment_onstep
  *                      and join the OnStep Groups.io at https://groups.io/g/onstep
- * 
+ *
  *           *** Read the compiler warnings and errors, they are there to help guard against invalid configurations ***
 */
 
@@ -13,7 +13,7 @@
 // <-Req'd = always must set, <-Often = usually must set, Option = optional, Adjust = adjust as req'd, Infreq = infrequently changed
 
 // On first successful startup an AP will appear with an SSID of "ONSTEP", after connecting: the web-site is at "192.168.0.1" and
-// the cmd channel is at "192.168.0.1:9999". If locked out selecting "Erase Flash: All Flash Contents" from the Arduino Tools menu 
+// the cmd channel is at "192.168.0.1:9999". If locked out selecting "Erase Flash: All Flash Contents" from the Arduino Tools menu
 // before uploading/flashing again can help restore access to the ESP8266.
 
 //      Parameter Name              Value   Default  Notes                                                                      Hint
@@ -25,25 +25,25 @@
                                           //         If establishing a link to OnStep was ***unsuccessful*** the ESP8266 may
                                           //         retain prior settings perhaps an SSID from factory defaults, for example.
 
-#define SERIAL_SWAP                   OFF //    OFF, ON to swap ESP8266 Serial default location from GPIO 1(TX)/3(RX) to     <-Req'd
+#define SERIAL_SWAP                   ON //    OFF, ON to swap ESP8266 Serial default location from GPIO 1(TX)/3(RX) to     <-Req'd
                                           //         15(TX2)/13(RX2.) These are labeled D8(TXD2)/D7(RXD2) on a WeMos D1 Mini.
                                           //         Use ON for MiniPCB2, MaxPCB2, MaxESP2.  OFF for STM32, MiniPCB (ESP-01.)
 
 // USER FEEDBACK -------------------------------------------------------------------------------------------------------------------
-#define LED_STATUS                    OFF //    OFF, 2 for WeMos D1 Mini. Flashes LED when trying to connect to OnStep.       Option
+#define LED_STATUS                    D4  //    OFF, 2 for WeMos D1 Mini. Flashes LED when trying to connect to OnStep.       Option
 
 // DISPLAY -------------------------------------------------------------------------------------------------------------------------
-#define DISPLAY_WEATHER               OFF //    OFF, ON Shows weather/ambient conditions (from OnStep) on status page.        Option
-#define DISPLAY_INTERNAL_TEMPERATURE  OFF //    OFF, ON for internal MCU temperature display.                                 Option
-#define DISPLAY_WIFI_SIGNAL_STRENGTH  OFF //    OFF, ON if wireless signal strength is to be reported via web interface       Option
+#define DISPLAY_WEATHER                ON //    OFF, ON Shows weather/ambient conditions (from OnStep) on status page.        Option
+#define DISPLAY_INTERNAL_TEMPERATURE   ON //    OFF, ON for internal MCU temperature display.                                 Option
+#define DISPLAY_WIFI_SIGNAL_STRENGTH   ON //    OFF, ON if wireless signal strength is to be reported via web interface       Option
 #define DISPLAY_SPECIAL_CHARS          ON //     ON, For standard ASCII special symbols (compatibility.)                      Infreq
 #define DISPLAY_ADVANCED_CHARS         ON //     ON, For standard "RA/Dec" instead of symbols.                                Infreq
 
 // COMMAND CHANNELS ----------------------------------------------------------------------------------------------------------------
 #define STANDARD_COMMAND_CHANNEL       ON //     ON, Enable standard cmd channel port 9999 use w/Android App & ASCOM driver.  Infreq
-#define PERSISTENT_COMMAND_CHANNEL    OFF //    OFF, Enable persistent cmd channel port 9998 use w/INDI? & Stellarium Mobile. Infreq
+#define PERSISTENT_COMMAND_CHANNEL     ON //    OFF, Enable persistent cmd channel port 9998 use w/INDI? & Stellarium Mobile. Infreq
                                           //         Experimental, possibly causes problems w/standard cmd channel if enabled.
-#define MONITOR_GUIDE_COMMANDS        OFF //    OFF, Allow error reporting to also monitor guide commands.                    Infreq
+#define MONITOR_GUIDE_COMMANDS         ON //    OFF, Allow error reporting to also monitor guide commands.                    Infreq
 
 // ENCODER SUPPORT -----------------------------------------------------------------------------------------------------------------
 #define AXIS1_ENC                     OFF //    OFF, CWCCW, AB. RA/Azm Axis on Pin 5 (A or CW) and Pin 6 (B or CCW,)          Option
