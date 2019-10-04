@@ -101,7 +101,7 @@
 
 // Optionally adjust tracking rate to compensate for atmospheric refraction, default=_OFF
 // can be turned on/off with the :Tr# and :Tn# commands regardless of this setting
-#define TRACK_REFRACTION_RATE_DEFAULT_ON
+#define TRACK_REFRACTION_RATE_DEFAULT_OFF
 
 // Set to _OFF and OnStep will allow Syncs to change pier side for GEM mounts (on/off), default=_ON
 #define SYNC_CURRENT_PIER_SIDE_ONLY_ON
@@ -170,8 +170,8 @@
 #define STEP_WAVE_FORM SQUARE
 
 // Reverse the direction of movement.  Adjust as needed or reverse your wiring so things move in the right direction
-#define AXIS1_REVERSE_OFF            // RA/Azm axis
-#define AXIS2_REVERSE_ON             // Dec/Alt axis
+#define AXIS1_REVERSE_ON            // RA/Azm axis
+#define AXIS2_REVERSE_OFF           // Dec/Alt axis
 
 // Stepper driver Enable support, just wire (Axis1 and Axis2) Enable to Pin 4 and OnStep will pull these HIGH to disable the stepper drivers on startup and when Parked or Homed.  
 // An Align, Sync, or Un-Park will enable the drivers.  Adjust below if you need these pulled LOW to disable the drivers.  Both AXIS1 and AXIS must use the same value!
