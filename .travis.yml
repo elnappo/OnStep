@@ -1,0 +1,19 @@
+language: c
+sudo: false
+cache:
+  directories:
+    - ~/arduino_ide
+    - ~/.arduino15/packages/
+git:
+  depth: false
+  quiet: true
+env:
+  global:
+    - INSTALL_PLATFORMS: "esp32"
+before_install:
+  - source <(curl -SLs https://raw.githubusercontent.com/adafruit/travis-ci-arduino/master/install.sh)
+install:
+  # Note that every library should be installed in a seperate command
+  - arduino --install-library "Adafruit BME280 Library"
+script:
+  - build_main_platforms
